@@ -1,0 +1,87 @@
+{% extends 'base.html' %}
+
+{% block title %}Админ-панель{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <link rel="stylesheet" href="/static/style.css">
+    <h2 class="text-center">Админ-панель</h2>
+
+    <h3>Пользователи</h3>
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Email</th>
+                <th>Пароль</th>
+                <th>Админ</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for user in users %}
+            <tr>
+                <td>{{ user.id }}</td>
+                <td>{{ user.email }}</td>
+                <td>{{ user.password }}</td>
+                <td>{{ 'Да' if user.is_admin else 'Нет' }}</td>
+                <td>
+                    <form method="POST" style="display: inline;">
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <input type="hidden" name="action" value="update_user">
+                        <input type="text" name="new_email" placeholder="Новый email">
+                        <input type="text" name="new_password" placeholder="Новый пароль">
+                        <label>
+                            <input type="checkbox" name="make_admin" value="true"> Назначить админом
+                        </label>
+                        <button type="submit" class="btn btn-primary btn-sm">Обновить</button>
+                    </form>
+                    <form method="POST" style="display: inline;">
+                        <input type="hidden" name="user_id" value="{{ user.id }}">
+                        <input type="hidden" name="action" value="delete_user">
+                        <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <h3>Посты</h3>
+    <table class="table table-dark table-striped">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Название</th>
+                <th>Содержимое</th>
+                <th>Автор</th>
+                <th>Действия</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for post in posts %}
+            <tr>
+                <td>{{ post.id }}</td>
+                <td>{{ post.title }}</td>
+                <td>{{ post.content }}</td>
+                <td>{{ post.user_id }}</td>
+                <td>
+                    <form method="POST" style="display: inline;">
+                        <input type="hidden" name="post_id" value="{{ post.id }}">
+                        <input type="hidden" name="action" value="edit_post">
+                        <input type="text" name="new_title" placeholder="Новое название">
+                        <input type="text" name="new_content" placeholder="Новое содержимое">
+                        <button type="submit" class="btn btn-primary btn-sm">Редактировать</button>
+                    </form>
+                    <form method="POST" style="display: inline;">
+                        <input type="hidden" name="post_id" value="{{ post.id }}">
+                        <input type="hidden" name="action" value="delete_post">
+                        <button type="submit" class="btn btn-danger btn-sm">Удалить</button>
+                    </form>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
