@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block title %}Личная комната{% endblock %}
+
+{% block content %}
+<div class="container mt-5">
+    <h2 class="text-center">Личная комната</h2>
+    <link rel="stylesheet" href="/static/style.css">
+    <h3>Ваши посты:</h3>
+    <ul class="list-group">
+        {% for post in posts %}
+        <li class="list-group-item">
+            <strong>{{ post.title }}</strong>
+            <p>{{ post.content }}</p>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h3 class="mt-5">Создать новый пост:</h3>
+    <form method="POST" class="mt-3">
+        <div class="mb-3">
+            <label for="title" class="form-label">Название поста</label>
+            <input type="text" class="form-control" id="title" name="title" required>
+        </div>
+        <div class="mb-3">
+            <label for="content" class="form-label">Содержимое поста</label>
+            <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary">Опубликовать</button>
+    </form>
+</div>
+{% endblock %}
